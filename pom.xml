@@ -14,7 +14,7 @@
     <name>SpringLab2</name>
     <description>SpringLab2</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>8</java.version>
     </properties>
     <dependencies>
         <dependency>
@@ -36,11 +36,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>8.0.1</version>
         </dependency>
         <dependency>
             <groupId>javax.validation</groupId>

@@ -22,7 +22,7 @@ public class SpringLab2Application {
         for(String s : context.getBeanDefinitionNames()) {
             System.out.println(s);
         }
-        ArrayList<Currency> currencies1 = new ArrayList<>();
+        ArrayList<Currency> currencies1 = new ArrayList<>(); 
         currencies1.add(new Currency(CurrencyName.US, 26.7));
         currencies1.add(new Currency(CurrencyName.EUR, 30.7));
         currencies1.add(new Currency(CurrencyName.UK, 36.7));

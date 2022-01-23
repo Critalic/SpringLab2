@@ -15,9 +15,10 @@
             <img th:src="@{logo.svg}" class="h-6" alt="Tailwind Play"/>
             <div class="divide-y divide-gray-300/50">
                 <div class="py-8 text-base leading-7 space-y-6 text-gray-600">
-                    <p> Hello, <span th:text="${role}"/></p>
-                    <p><span th:if="${rates.isEmpty() ? 'Found next entries:' : 'Found no entries'}"/></p>
-                    <a th:href="view">Go back</a>
+                    <p><span th:text="${rates.isEmpty() ? 'Found next entries:' : 'Found no entries'}"/>
+
+                    </p>
+                    <p><a th:href="@{view}">Go back</a></p>
                 </div>
             </div>
         </div>
