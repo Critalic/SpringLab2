@@ -36,19 +36,32 @@ public class MainService implements ApplicationContextAware {
     public RateByDate getTodayRate() {
         return mainDao.getRates().stream()
                 .max(new CompareRate())
-                .orElse(null);
+                .orElse(new RateByDate());
+    }
+
+    public List<RateByDate> getSpecifiedRates(Date from, Date to) {
+        return mainDao.getRates().stream()
+                .filter(rate  -> rate.getDate().after(dateToCalendar(from)) &&
+                        rate.getDate().before(dateToCalendar(to)))
+                .collect(Collectors.toList());
+    }
+
+    public RateByDate getSpecifiedRate(Date on) {
+        return mainDao.getRates().stream()
+                .filter(rate  -> rate.getDate().equals(dateToCalendar(on)))
+                .findFirst().orElse(new RateByDate());
+    }
+
+    private Calendar dateToCalendar(Date date) {
+        Calendar toCalendar = Calendar.getInstance();
+        toCalendar.setTime(date);
+        return toCalendar;
     }
 
     private RateByDate getMostRecentRate() {
         ArrayList<RateByDate> rates = mainDao.getRates();
         rates.sort(new CompareRate());
         return rates.get(0);
-    }
-
-    public List<RateByDate> getSpecifiedRates(Date from, Date to) {
-        return mainDao.getRates().stream()
-                .filter(rate  -> rate.getDate().after(from) && rate.getDate().before(to))
-                .collect(Collectors.toList());
     }
 
     @Bean("rate")

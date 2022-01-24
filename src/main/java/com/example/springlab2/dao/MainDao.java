@@ -28,14 +28,15 @@ public class MainDao {
 
         this.currencies.add(new RateByDate(
                 new GregorianCalendar(2022, Calendar.JANUARY, 10), currencies1));
-        this.currencies.add(new RateByDate(new GregorianCalendar(), currencies2));
+        this.currencies.add(new RateByDate(
+                new GregorianCalendar(2022, Calendar.JANUARY, 23), currencies2));
     }
 
     public ArrayList<RateByDate> getRates() {
         return currencies;
     }
 
-    public void addRate(RateByDate rate) {
+    public synchronized void addRate(RateByDate rate) {
         currencies.add(rate);
     }
 }

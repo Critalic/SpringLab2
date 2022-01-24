@@ -33,16 +33,17 @@ public class InitialController {
                                  @RequestParam("role") String role) {
         session.setAttribute("isAdmin", mainService.isAdmin(role));
         model.addAttribute("role", role);
-        model.addAttribute("date", mainService.getTodayRate().getDate());
-        model.addAttribute("currencies", mainService.getTodayRate().getCurrencies());
+        RateByDate todayRate = mainService.getTodayRate();
+        model.addAttribute("date", todayRate.getDate());
+        model.addAttribute("currencies", todayRate.getCurrencies());
         return "currenciesView";
     }
 
     @GetMapping("/view")
-    public String viewCurrencies(HttpSession session, Model model) {
-        if((Boolean) session.getAttribute("isAdmin")) return "currenciesView&Edit";
-        model.addAttribute("date", mainService.getTodayRate().getDate());
-        model.addAttribute("currencies", mainService.getTodayRate().getCurrencies());
+    public String viewCurrencies(Model model) {
+        RateByDate todayRate = mainService.getTodayRate();
+        model.addAttribute("date", todayRate.getDate());
+        model.addAttribute("currencies", todayRate.getCurrencies());
         return "currenciesView";
     }
 

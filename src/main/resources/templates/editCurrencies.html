@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Searched</title>
+    <title>Edit</title>
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
@@ -15,20 +15,26 @@
             <img th:src="@{logo.svg}" class="h-6" alt="Tailwind Play"/>
             <div class="divide-y divide-gray-300/50">
                 <div class="py-8 text-base leading-7 space-y-6 text-gray-600">
-                    <p><span th:text="${rates.isEmpty() ? 'Found no entries' : 'Found next entries:'}"/>
-                    <div th:unless = "${rates.isEmpty()}">
-                        <div th:each = "rate:${rates}">
+                    <p><span th:text="${currencies == null ? 'Found no entries on ' : 'Found next entries on '}"/>
+                        <span th:text = "${date}"/>
+                    </p>
 
-                                <h1> On <span th:text="*{rate.date.getTime()}"/> :</h1>
-                                <ul class="space-y-4 list-disc" th:each = "currency:${rate.currencies}">
-                                    <li>
-                                        <p class="ml-4">
+                    <div th:unless = "${currencies == null}">
+                        <form th:action="@{/editRates}" method="get">
+                            <ul class="space-y-4" th:each = "currency:${currencies}">
+                                <li>
+                                    <p class="ml-4">
+                                        <input type="radio" name = "currency"
+                                               th:value="${currency.currency}" />
                                         <span th:text="${currency.currency}"/> is <span th:text="${currency.getCourseToUAH()}"/> UAH
-                                        </p>
-                                    </li>
-                                </ul>
+                                    </p>
+                                </li>
+                            </ul>
                             <br/>
-                        </div>
+                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                    type="submit">Edit selected
+                            </button>
+                        </form>
                     </div>
                     <p><a th:href="@{view}">Go back</a></p>
                 </div>
