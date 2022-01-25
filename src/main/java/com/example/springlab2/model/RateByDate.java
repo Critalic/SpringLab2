@@ -30,4 +30,11 @@ public class RateByDate {
     public void setCurrencies(ArrayList<Currency> currencies) {
         this.currencies = currencies;
     }
+
+    public void addCurrency(Currency currency) {
+        this.currencies.add(currency);
+    }
+    public void removeCurrency(String currencyName) {
+        this.currencies.removeIf(currency -> currency.getCurrency().equals(currencyName));
+    }
 }

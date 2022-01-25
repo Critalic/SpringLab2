@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -39,23 +41,32 @@ public class MainService implements ApplicationContextAware {
                 .orElse(new RateByDate());
     }
 
-    public List<RateByDate> getSpecifiedRates(Date from, Date to) {
+    public List<RateByDate> getSpecifiedRates(Calendar from, Calendar to) {
         return mainDao.getRates().stream()
-                .filter(rate  -> rate.getDate().after(dateToCalendar(from)) &&
-                        rate.getDate().before(dateToCalendar(to)))
+                .filter(rate  -> rate.getDate().after(from) &&
+                        rate.getDate().before(to))
                 .collect(Collectors.toList());
     }
 
-    public RateByDate getSpecifiedRate(Date on) {
+    public RateByDate getSpecifiedRate(Calendar on) {
         return mainDao.getRates().stream()
-                .filter(rate  -> rate.getDate().equals(dateToCalendar(on)))
+                .filter(rate  -> rate.getDate().equals(on))
                 .findFirst().orElse(new RateByDate());
     }
 
-    private Calendar dateToCalendar(Date date) {
+    public Calendar dateToCalendar(String date) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Calendar toCalendar = Calendar.getInstance();
-        toCalendar.setTime(date);
+        toCalendar.setTime(format.parse(date));
         return toCalendar;
+    }
+
+    public void deleteEntry(String currencyName, Calendar date) {
+        mainDao.deleteCurrency(currencyName, date);
+    }
+
+    public void addEntry(String inputName, double inputRate, Calendar date){
+        mainDao.addCurrency(new Currency(inputName, inputRate), date);
     }
 
     private RateByDate getMostRecentRate() {
@@ -74,7 +85,6 @@ public class MainService implements ApplicationContextAware {
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.context = applicationContext;
     }
-
 }
 
 class CompareRate implements Comparator<RateByDate> {

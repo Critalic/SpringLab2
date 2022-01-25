@@ -23,9 +23,9 @@ public class SpringLab2Application {
 //            System.out.println(s);
 //        }
         ArrayList<Currency> currencies1 = new ArrayList<>(); 
-        currencies1.add(new Currency(CurrencyName.US, 26.7));
-        currencies1.add(new Currency(CurrencyName.EUR, 30.7));
-        currencies1.add(new Currency(CurrencyName.UK, 36.7));
+        currencies1.add(new Currency(CurrencyName.US.toString(), 26.7));
+        currencies1.add(new Currency(CurrencyName.EUR.toString(), 30.7));
+        currencies1.add(new Currency(CurrencyName.UK.toString(), 36.7));
 
 //        context.getBean(MainService.class).addRate(
 //                new GregorianCalendar(2022, Calendar.JANUARY, 10), currencies1);

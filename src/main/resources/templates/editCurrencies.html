@@ -20,22 +20,67 @@
                     </p>
 
                     <div th:unless = "${currencies == null}">
-                        <form th:action="@{/editRates}" method="get">
+
+                        <form th:action="@{/replace}" method="POST">
                             <ul class="space-y-4" th:each = "currency:${currencies}">
                                 <li>
                                     <p class="ml-4">
-                                        <input type="radio" name = "currency"
-                                               th:value="${currency.currency}" />
+                                        <input type="radio" name = "currencyName"
+                                               th:value="${currency.currency}" required />
+                                        <span th:text="${currency.currency}"/> is <span th:text="${currency.getCourseToUAH()}"/> UAH
+                                    </p>
+                                </li>
+                            </ul>
+                            <br/>
+                            <div class="col-md-6 mb-3">
+                                <label for="name">Currency name</label>
+                                <input name = 'inputName' class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                       type="text" id="name"  required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="rate">Currency rate</label>
+                                <input name = 'inputRate' class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                       type="number" id="rate" min="0" step="any" required>
+                            </div>
+                            <br/>
+                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                    type="submit" name="Edit">Edit selected
+                            </button>
+                        </form>
+
+                        <form th:action="@{/delete}" method="Post">
+                            <ul class="space-y-4" th:each = "currency:${currencies}">
+                                <li>
+                                    <p class="ml-4">
+                                        <input type="radio" name = "currencyName"
+                                               th:value="${currency.currency}" required/>
                                         <span th:text="${currency.currency}"/> is <span th:text="${currency.getCourseToUAH()}"/> UAH
                                     </p>
                                 </li>
                             </ul>
                             <br/>
                             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                    type="submit">Edit selected
+                                    type="submit" name="Delete">Delete selected
                             </button>
                         </form>
                     </div>
+
+                        <form th:action="@{/add}" method="post">
+                            <div class="col-md-6 mb-3">
+                                <label for="nameAdd">Currency name</label>
+                                <input name = 'inputName' class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                       type="text" id="nameAdd" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="rateAdd">Currency rate</label>
+                                <input name = 'inputRate' class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                       type="number" id="rateAdd" min="0" step="any" required>
+                            </div>
+                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                    type="submit" name="Add">Add
+                            </button>
+                        </form>
+
                     <p><a th:href="@{view}">Go back</a></p>
                 </div>
             </div>
