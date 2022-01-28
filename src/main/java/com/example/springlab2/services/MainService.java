@@ -11,8 +11,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,7 +30,7 @@ public class MainService implements ApplicationContextAware {
         return input.equals("admin");
     }
 
-    public void addRate(Calendar date, ArrayList<Currency> currencies) {
+    public void addRate(LocalDate date, ArrayList<Currency> currencies) {
         RateByDate rate = context.getBean(RateByDate.class);
         rate.setDate(date);
         rate.setCurrencies(currencies);
@@ -41,31 +43,28 @@ public class MainService implements ApplicationContextAware {
                 .orElse(new RateByDate());
     }
 
-    public List<RateByDate> getSpecifiedRates(Calendar from, Calendar to) {
+    public List<RateByDate> getSpecifiedRates(LocalDate from, LocalDate to) {
         return mainDao.getRates().stream()
-                .filter(rate  -> rate.getDate().after(from) &&
-                        rate.getDate().before(to))
+                .filter(rate  -> rate.getDate().isAfter(from) &&
+                        rate.getDate().isBefore(to))
                 .collect(Collectors.toList());
     }
 
-    public RateByDate getSpecifiedRate(Calendar on) {
+    public RateByDate getSpecifiedRate(LocalDate on) {
         return mainDao.getRates().stream()
                 .filter(rate  -> rate.getDate().equals(on))
                 .findFirst().orElse(new RateByDate());
     }
 
-    public Calendar dateToCalendar(String date) throws ParseException {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar toCalendar = Calendar.getInstance();
-        toCalendar.setTime(format.parse(date));
-        return toCalendar;
+    public LocalDate parseDate(String date) throws ParseException {
+        return LocalDate.parse(date);
     }
 
-    public void deleteEntry(String currencyName, Calendar date) {
+    public void deleteEntry(String currencyName, LocalDate date) {
         mainDao.deleteCurrency(currencyName, date);
     }
 
-    public void addEntry(String inputName, double inputRate, Calendar date){
+    public void addEntry(String inputName, double inputRate, LocalDate date){
         mainDao.addCurrency(new Currency(inputName, inputRate), date);
     }
 
@@ -91,8 +90,8 @@ class CompareRate implements Comparator<RateByDate> {
 
     @Override
     public int compare(RateByDate o1, RateByDate o2) {
-        if (o1.getDate().after(o2.getDate())) return 1;
-        else if (o1.getDate().before(o2.getDate())) return -1;
+        if (o1.getDate().isAfter(o2.getDate())) return 1;
+        else if (o1.getDate().isBefore(o2.getDate())) return -1;
         return 0;
     }
 }

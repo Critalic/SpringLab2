@@ -5,9 +5,9 @@ import com.example.springlab2.model.CurrencyName;
 import com.example.springlab2.model.RateByDate;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 @Repository("repository")
 public class MainDao {
@@ -27,9 +27,9 @@ public class MainDao {
         currencies2.add(new Currency(CurrencyName.UK.toString(), 37.7));
 
         this.rateByDates.add(new RateByDate(
-                new GregorianCalendar(2022, Calendar.JANUARY, 10), currencies1));
+                LocalDate.of(2022, Month.JANUARY, 10), currencies1));
         this.rateByDates.add(new RateByDate(
-                new GregorianCalendar(2022, Calendar.JANUARY, 23), currencies2));
+                LocalDate.of(2022, Month.JANUARY, 23), currencies2));
     }
 
     public ArrayList<RateByDate> getRates() {
@@ -40,20 +40,20 @@ public class MainDao {
         this.rateByDates.add(rate);
     }
 
-    public synchronized void addCurrency(Currency currency, Calendar date) {
+    public synchronized void addCurrency(Currency currency, LocalDate date) {
         RateByDate rateToEdit = rateByDates.stream()
-                .filter(rate -> rate.getDate().equals(date))
+                .filter(rate -> rate.getDate().isEqual(date))
                 .findFirst().orElse(new RateByDate(date, new ArrayList<>()));
         rateToEdit.addCurrency(currency);
-        rateByDates.removeIf(rate -> rate.getDate().equals(rateToEdit.getDate()));
+        rateByDates.removeIf(rate -> rate.getDate().isEqual(rateToEdit.getDate()));
         rateByDates.add(rateToEdit);
     }
-    public synchronized void deleteCurrency(String currencyName, Calendar date) {
+    public synchronized void deleteCurrency(String currencyName, LocalDate date) {
         RateByDate rateToEdit = rateByDates.stream()
-                .filter(rate -> rate.getDate().equals(date))
+                .filter(rate -> rate.getDate().isEqual(date))
                 .findFirst().orElse(null);
         rateToEdit.removeCurrency(currencyName);
-        rateByDates.removeIf(rate -> rate.getDate().equals(rateToEdit.getDate()));
+        rateByDates.removeIf(rate -> rate.getDate().isEqual(rateToEdit.getDate()));
         rateByDates.add(rateToEdit);
     }
 }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
-import java.util.Calendar;
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -52,8 +52,8 @@ public class InitialController {
     public String searchRates(Model model,
                               @RequestParam("from") String from,
                               @RequestParam("to") String to) throws ParseException {
-        Calendar fromDate = mainService.dateToCalendar(from);
-        Calendar toDate = mainService.dateToCalendar(to);
+        LocalDate fromDate = mainService.parseDate(from);
+        LocalDate toDate = mainService.parseDate(to);
         List<RateByDate> rates = mainService.getSpecifiedRates(fromDate, toDate);
         model.addAttribute("rates", rates);
         return "searchedCurrencies";

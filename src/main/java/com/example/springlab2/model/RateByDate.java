@@ -1,21 +1,21 @@
 package com.example.springlab2.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class RateByDate {
-    private Calendar date;
+    private LocalDate date;
     private ArrayList<Currency> currencies;
 
     public RateByDate() {
     }
 
-    public RateByDate(Calendar date, ArrayList<Currency> currencies) {
+    public RateByDate(LocalDate date, ArrayList<Currency> currencies) {
         this.date = date;
         this.currencies = currencies;
     }
 
-    public Calendar getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
@@ -23,7 +23,7 @@ public class RateByDate {
         return currencies;
     }
 
-    public void setDate(Calendar date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

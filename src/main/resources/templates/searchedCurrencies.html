@@ -19,7 +19,7 @@
                     <div th:unless = "${rates.isEmpty()}">
                         <div th:each = "rate:${rates}">
 
-                                <h1> On <span th:text="*{rate.date.getTime()}"/> :</h1>
+                                <h1> On <span th:text="*{rate.date}"/> :</h1>
                                 <ul class="space-y-4 list-disc" th:each = "currency:${rate.currencies}">
                                     <li>
                                         <p class="ml-4">
