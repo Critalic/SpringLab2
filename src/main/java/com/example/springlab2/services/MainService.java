@@ -6,8 +6,6 @@ import com.example.springlab2.model.RateByDate;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -39,20 +37,20 @@ public class MainService implements ApplicationContextAware {
 
     public RateByDate getTodayRate() {
         return mainDao.getRates().stream()
-                .max(new CompareRate())
+                .max(new RateComparator())
                 .orElse(new RateByDate());
     }
 
     public List<RateByDate> getSpecifiedRates(LocalDate from, LocalDate to) {
         return mainDao.getRates().stream()
-                .filter(rate  -> rate.getDate().isAfter(from) &&
+                .filter(rate -> rate.getDate().isAfter(from) &&
                         rate.getDate().isBefore(to))
                 .collect(Collectors.toList());
     }
 
     public RateByDate getSpecifiedRate(LocalDate on) {
         return mainDao.getRates().stream()
-                .filter(rate  -> rate.getDate().equals(on))
+                .filter(rate -> rate.getDate().equals(on))
                 .findFirst().orElse(new RateByDate());
     }
 
@@ -64,20 +62,14 @@ public class MainService implements ApplicationContextAware {
         mainDao.deleteCurrency(currencyName, date);
     }
 
-    public void addEntry(String inputName, double inputRate, LocalDate date){
+    public void addEntry(String inputName, double inputRate, LocalDate date) {
         mainDao.addCurrency(new Currency(inputName, inputRate), date);
     }
 
     private RateByDate getMostRecentRate() {
         ArrayList<RateByDate> rates = mainDao.getRates();
-        rates.sort(new CompareRate());
+        rates.sort(new RateComparator());
         return rates.get(0);
-    }
-
-    @Bean("rate")
-    @Scope("prototype")
-    public RateByDate createRate() {
-        return new RateByDate();
     }
 
     @Override
@@ -86,7 +78,7 @@ public class MainService implements ApplicationContextAware {
     }
 }
 
-class CompareRate implements Comparator<RateByDate> {
+class RateComparator implements Comparator<RateByDate> {
 
     @Override
     public int compare(RateByDate o1, RateByDate o2) {

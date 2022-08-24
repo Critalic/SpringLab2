@@ -1,6 +1,9 @@
 package com.example.springlab2.configurations;
 
+import com.example.springlab2.model.RateByDate;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -12,5 +15,12 @@ public class MainConfig implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/static/")
                 .setCachePeriod(0);
     }
+
+    @Bean("rate")
+    @Scope("prototype")
+    public RateByDate rateByDate() {
+        return new RateByDate();
+    }
+
 }
 

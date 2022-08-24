@@ -17,10 +17,11 @@ public class SpringLab2Application {
 
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(SpringLab2Application.class, args);
-
-//        for(String s : context.getBeanDefinitionNames()) {
-//            System.out.println(s);
-//        }
+        System.out.println(context.getBean("rate").hashCode());
+        System.out.println(context.getBean("rate").hashCode());
+        for(String s : context.getBeanDefinitionNames()) {
+            System.out.println(s);
+        }
         ArrayList<Currency> currencies1 = new ArrayList<>(); 
         currencies1.add(new Currency(CurrencyName.US.toString(), 26.7));
         currencies1.add(new Currency(CurrencyName.EUR.toString(), 30.7));
