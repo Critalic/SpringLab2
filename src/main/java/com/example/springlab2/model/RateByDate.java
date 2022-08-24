@@ -23,17 +23,20 @@ public class RateByDate {
         return currencies;
     }
 
-    public void setDate(LocalDate date) {
+    public RateByDate setDate(LocalDate date) {
         this.date = date;
+        return this;
     }
 
-    public void setCurrencies(ArrayList<Currency> currencies) {
+    public RateByDate setCurrencies(ArrayList<Currency> currencies) {
         this.currencies = currencies;
+        return this;
     }
 
     public void addCurrency(Currency currency) {
         this.currencies.add(currency);
     }
+
     public void removeCurrency(String currencyName) {
         this.currencies.removeIf(currency -> currency.getCurrency().equals(currencyName));
     }

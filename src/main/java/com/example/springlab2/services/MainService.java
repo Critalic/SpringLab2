@@ -8,7 +8,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -38,7 +37,7 @@ public class MainService implements ApplicationContextAware {
     public RateByDate getTodayRate() {
         return mainDao.getRates().stream()
                 .max(new RateComparator())
-                .orElse(new RateByDate());
+                .orElse(context.getBean(RateByDate.class));
     }
 
     public List<RateByDate> getSpecifiedRates(LocalDate from, LocalDate to) {
@@ -51,10 +50,10 @@ public class MainService implements ApplicationContextAware {
     public RateByDate getSpecifiedRate(LocalDate on) {
         return mainDao.getRates().stream()
                 .filter(rate -> rate.getDate().equals(on))
-                .findFirst().orElse(new RateByDate());
+                .findFirst().orElse(context.getBean(RateByDate.class));
     }
 
-    public LocalDate parseDate(String date) throws ParseException {
+    public LocalDate parseDate(String date) {
         return LocalDate.parse(date);
     }
 
@@ -64,12 +63,6 @@ public class MainService implements ApplicationContextAware {
 
     public void addEntry(String inputName, double inputRate, LocalDate date) {
         mainDao.addCurrency(new Currency(inputName, inputRate), date);
-    }
-
-    private RateByDate getMostRecentRate() {
-        ArrayList<RateByDate> rates = mainDao.getRates();
-        rates.sort(new RateComparator());
-        return rates.get(0);
     }
 
     @Override

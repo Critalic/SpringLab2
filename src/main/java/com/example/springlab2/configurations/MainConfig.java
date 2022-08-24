@@ -21,6 +21,4 @@ public class MainConfig implements WebMvcConfigurer {
     public RateByDate rateByDate() {
         return new RateByDate();
     }
-
 }
-

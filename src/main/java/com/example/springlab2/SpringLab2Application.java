@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.ArrayList;
 
 @SpringBootApplication
@@ -19,10 +18,10 @@ public class SpringLab2Application {
         ConfigurableApplicationContext context = SpringApplication.run(SpringLab2Application.class, args);
         System.out.println(context.getBean("rate").hashCode());
         System.out.println(context.getBean("rate").hashCode());
-        for(String s : context.getBeanDefinitionNames()) {
+        for (String s : context.getBeanDefinitionNames()) {
             System.out.println(s);
         }
-        ArrayList<Currency> currencies1 = new ArrayList<>(); 
+        ArrayList<Currency> currencies1 = new ArrayList<>();
         currencies1.add(new Currency(CurrencyName.US.toString(), 26.7));
         currencies1.add(new Currency(CurrencyName.EUR.toString(), 30.7));
         currencies1.add(new Currency(CurrencyName.UK.toString(), 36.7));

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.servlet.http.HttpSession;
-import java.text.ParseException;
 import java.time.LocalDate;
 
 @Controller
@@ -27,9 +26,9 @@ public class AdminController {
 
     @GetMapping("/editRates")
     public String editRates(HttpSession session, Model model,
-                            @RequestParam("date") String date) throws ParseException {
+                            @RequestParam("date") String date) {
         String role = (String) session.getAttribute("role");
-        if(mainService.isAdmin(role)) {
+        if (mainService.isAdmin(role)) {
             LocalDate fromDate = mainService.parseDate(date);
             model.addAttribute("date", date);
             model.addAttribute("currencies", mainService.getSpecifiedRate(fromDate).getCurrencies());
@@ -40,23 +39,23 @@ public class AdminController {
 
     @PostMapping("/replace")
     public String replaceCurrency(Model model,
-                               @RequestParam("currencyName") String currencyName,
-                               @RequestParam("inputName") String inputName,
-                               @RequestParam("inputRate") double inputRate) throws ParseException {
+                                  @RequestParam("currencyName") String currencyName,
+                                  @RequestParam("inputName") String inputName,
+                                  @RequestParam("inputRate") double inputRate) {
         LocalDate calendarDate = mainService.parseDate(
                 (String) model.getAttribute("date"));
-            mainService.deleteEntry(currencyName, calendarDate);
-            mainService.addEntry(inputName, inputRate, calendarDate);
+        mainService.deleteEntry(currencyName, calendarDate);
+        mainService.addEntry(inputName, inputRate, calendarDate);
         model.addAttribute("currencies", mainService.getSpecifiedRate(calendarDate).getCurrencies());
         return "editCurrencies";
     }
 
     @PostMapping("/delete")
     public String deleteCurrency(Model model,
-                            @RequestParam("currencyName") String currencyName) throws ParseException {
+                                 @RequestParam("currencyName") String currencyName) {
         LocalDate calendarDate = mainService.parseDate(
                 (String) model.getAttribute("date"));
-                mainService.deleteEntry(currencyName, calendarDate);
+        mainService.deleteEntry(currencyName, calendarDate);
         model.addAttribute("currencies", mainService.getSpecifiedRate(calendarDate).getCurrencies());
         return "editCurrencies";
     }
@@ -64,7 +63,7 @@ public class AdminController {
     @PostMapping("/add")
     public String addCurrency(Model model,
                               @RequestParam("inputName") String inputName,
-                              @RequestParam("inputRate") double inputRate) throws ParseException {
+                              @RequestParam("inputRate") double inputRate) {
         LocalDate calendarDate = mainService.parseDate(
                 (String) model.getAttribute("date"));
         mainService.addEntry(inputName, inputRate, calendarDate);

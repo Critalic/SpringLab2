@@ -6,7 +6,7 @@ public enum CurrencyName {
     EUR("Euro"),
     UK("Pound sterling");
 
-    private String name;
+    private final String name;
 
     CurrencyName(String name) {
         this.name = name;

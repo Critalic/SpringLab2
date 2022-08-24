@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.servlet.http.HttpSession;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -51,12 +50,11 @@ public class InitialController {
     @GetMapping("/searchRates")
     public String searchRates(Model model,
                               @RequestParam("from") String from,
-                              @RequestParam("to") String to) throws ParseException {
+                              @RequestParam("to") String to) {
         LocalDate fromDate = mainService.parseDate(from);
         LocalDate toDate = mainService.parseDate(to);
         List<RateByDate> rates = mainService.getSpecifiedRates(fromDate, toDate);
         model.addAttribute("rates", rates);
         return "searchedCurrencies";
     }
-
 }
